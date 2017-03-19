@@ -13,10 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/test', function () {
-    return response()->json(phpinfo());
-});
+Route::group(['middleware' => 'auth:api'], function () {
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::get('/user/info/{email}', 'UserController@getUserInfo');
+
+
 });
